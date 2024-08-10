@@ -2,7 +2,7 @@ Time complexity is defined as the number of times a particular instructions set 
 
 Space complexity is defined as the amount of memory space required by an algorithm to execute it.
 
-Big O notation is used to represent the time complexity of an algorithm.
+Big O notation is used to represent the time/space complexity of an algorithm.
 
 it represents the worst-case scenario.
 
