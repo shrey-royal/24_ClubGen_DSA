@@ -101,7 +101,7 @@ void quickSort(int arr[], int lower, int upper) {
 }
 
 void test() {
-    const int size = rand() % 500;  //0 to 499
+    const int size = 500000;  //0 to 499
     int *arr = (int *) calloc(size, sizeof(int));
 
     for (int i = 0; i < size; i++) {
@@ -111,6 +111,7 @@ void test() {
     // printf("\nBefore sorting: ");
     // display(arr, size);
 
+    printf("\nSorting started!");
     clock_t start = clock();
     
     // bubbleSort(arr, size);
