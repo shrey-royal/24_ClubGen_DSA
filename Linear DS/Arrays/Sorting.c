@@ -100,8 +100,74 @@ void quickSort(int arr[], int lower, int upper) {
     }
 }
 
+/*
+    @brief Perform merge of segments.
+    @param a array to sort
+    @param l left index for merge
+    @param r right index for merge
+    @param n total number of elements in the array
+ */
+void merge(int *a, int l, int r, int n)
+{
+    int *b = (int *)malloc(n * sizeof(int)); /* dynamic memory must be freed */
+    if (b == NULL)
+    {
+        printf("Can't Malloc! Please try again.");
+        exit(EXIT_FAILURE);
+    }
+    int c = l;
+    int p1, p2;
+    p1 = l;
+    p2 = ((l + r) / 2) + 1;
+    while ((p1 < ((l + r) / 2) + 1) && (p2 < r + 1)) {
+        if (a[p1] <= a[p2]) {
+            b[c++] = a[p1];
+            p1++;
+        } else {
+            b[c++] = a[p2];
+            p2++;
+        }
+    }
+
+    if (p2 == r + 1) {
+        while ((p1 < ((l + r) / 2) + 1)) {
+            b[c++] = a[p1];
+            p1++;
+        }
+    } else {
+        while ((p2 < r + 1)) {
+            b[c++] = a[p2];
+            p2++;
+        }
+    }
+
+    for (c = l; c < r + 1; c++) a[c] = b[c];
+
+    free(b);
+}
+
+/*  Merge sort algorithm implementation
+    @param a array to sort
+    @param n number of elements in the array
+    @param l index to sort from
+    @param r index to sort till
+*/
+void merge_sort(int *a, int n, int l, int r) {
+    if (r - l == 1) {
+        if (a[l] > a[r])
+            swap(&a[l], &a[r]);
+    } else if (l != r) {
+        merge_sort(a, n, l, (l + r) / 2);
+        merge_sort(a, n, ((l + r) / 2) + 1, r);
+        merge(a, l, r, n);
+    }
+
+    /* no change if l == r */
+}
+
+
 void test() {
-    const int size = 500000;  //0 to 499
+    const int size = rand() % 500;  //0 to 499
     int *arr = (int *) calloc(size, sizeof(int));
 
     for (int i = 0; i < size; i++) {
@@ -117,7 +183,8 @@ void test() {
     // bubbleSort(arr, size);
     // selectionSort(arr, size);
     // insertionSort(arr, size);
-    quickSort(arr, 0, size-1);
+    // quickSort(arr, 0, size-1);
+    merge_sort(arr, size, 0, size-1);
     
     clock_t end = clock();
     
