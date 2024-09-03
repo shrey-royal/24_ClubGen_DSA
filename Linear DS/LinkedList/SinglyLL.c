@@ -75,6 +75,26 @@ int searchByValue(struct Node* head, int key) {
     return 0;
 }
 
+int getLength(struct Node* head) {
+    int count = 0;
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+void reverseList(struct Node** head) {
+    struct Node* current = *head, *prev = NULL, *next = NULL;
+    while(current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    *head = prev;
+}
+
 void printList(struct Node* head) {
     printf("\nList: ==> ");
     while (head != NULL) {
@@ -136,13 +156,14 @@ int main() {
             system("pause");
             break;
 
-        // case 5:
-        //     printf("\nLength of the list: %d\n", getLength(head));
-        //     break;
+        case 5:
+            printf("\nLength of the list: %d\n", getLength(head));
+            system("pause");
+            break;
 
-        // case 6:
-        //     reverseList(&head);
-        //     break;
+        case 6:
+            reverseList(&head);
+            break;
 
         // case 7:
         //     deleteAtBeginning(&head);
