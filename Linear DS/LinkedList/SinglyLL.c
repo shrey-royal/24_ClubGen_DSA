@@ -95,6 +95,67 @@ void reverseList(struct Node** head) {
     *head = prev;
 }
 
+void deleteAtBeginning(struct Node** head) {
+    if (*head == NULL) {
+        printf("\nList is Empty!\n");
+        return;
+    }
+
+    struct Node* temp = *head;
+    *head = (*head)->next;
+    free(temp);
+}
+
+void deleteAtEnd(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
+
+    struct Node* temp = *head;
+
+    if (temp->next == NULL) {
+        *head = NULL;
+        free(temp);
+        return;
+    }
+
+    while (temp->next->next != NULL) {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+}
+
+void deleteAtPosition(struct Node** head, int position) {
+    if (*head == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
+
+    int length = getLength(*head);
+    if (position < 1 || position > length) {
+        printf("Invalid position!\n");
+        return;
+    }
+
+    struct Node* temp = *head;
+
+    if (position == 1) {
+        *head = (*head)->next;
+        free(temp);
+        return;
+    }
+
+    for (int i = 1; i < position - 1; i++) {
+        temp = temp->next;
+    }
+
+    struct Node* nodeToDelete = temp->next;
+    temp->next = temp->next->next;
+    free(nodeToDelete);
+}
+
 void printList(struct Node* head) {
     printf("\nList: ==> ");
     while (head != NULL) {
@@ -102,6 +163,12 @@ void printList(struct Node* head) {
         head = head->next;
     }
     printf("NULL\n");
+}
+
+void printFromEnd(struct Node* head) {
+    if (head == NULL) return;
+    printFromEnd(head->next);
+    printf("%d <- ", head->data);
 }
 
 // Input: 2 22 2 23 2 24 2 25 2 26 2 27 1 21
@@ -165,29 +232,31 @@ int main() {
             reverseList(&head);
             break;
 
-        // case 7:
-        //     deleteAtBeginning(&head);
-        //     break;
+        case 7:
+            deleteAtBeginning(&head);
+            break;
 
-        // case 8:
-        //     deleteAtEnd(&head);
-        //     break;
+        case 8:
+            deleteAtEnd(&head);
+            break;
 
-        // case 9:
-        //     printf("\nEnter the position to delete the node: ");
-        //     scanf("%d", &position);
-        //     deleteAtPosition(&head, position);
-        //     break;
+        case 9:
+            printf("\nEnter the position to delete the node: ");
+            scanf("%d", &position);
+            deleteAtPosition(&head, position);
+            system("pause");
+            break;
 
         case 10:
             printList(head);
             break;
 
-        // case 11:
-        //     printf("\nList from End: ");
-        //     PrintFromEnd(head);
-        //     printf("NULL\n");
-        //     break;
+        case 11:
+            printf("\nList from End: ");
+            printFromEnd(head);
+            printf("NULL\n");
+            system("pause");
+            break;
 
         case 0:
             printf("\nExiting...\n");
