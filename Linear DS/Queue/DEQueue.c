@@ -22,7 +22,7 @@ int isEmpty(struct Dequeue *dq) {
 }
 
 void insertFront(struct Dequeue *dq, int value) {
-    if (isFull(dq)) printf("\nDeuqeue is Full!");
+    if (isFull(dq)) printf("\nDeuqeue is Full!\n");
     else {
         if (dq->front == -1) {
             dq->front = dq->rear = 0;
@@ -36,8 +36,65 @@ void insertFront(struct Dequeue *dq, int value) {
     }
 }
 
+void insertRear(struct Dequeue *dq, int value) {
+    if (isFull(dq)) printf("\nDeuqeue is Full!\n");
+    else {
+        if (dq->front == -1) {
+            dq->front = dq->rear = 0;
+        } else if (dq->rear == MAX_SIZE - 1) {
+            dq->rear = 0;
+        } else {
+            dq->rear++;
+        }
+        dq->items[dq->rear] = value;
+        // printf("\nInserted %d at the rear", value);
+    }
+}
+
+void deleteFront(struct Dequeue *dq) {
+    if (isEmpty(dq)) printf("\nDeuqeue is Empty!\n");
+    else {
+        printf("\nDeleted %d from the front", dq->items[dq->front]);
+        if (dq->front == dq->rear) {
+            dq->front = dq->rear = -1;
+        } else if (dq->front == MAX_SIZE - 1) {
+            dq->front = 0;
+        } else {
+            dq->front++;
+        }
+    }
+}
+
+void deleteRear(struct Dequeue *dq) {
+    if (isEmpty(dq)) printf("\nDeuqeue is Empty!\n");
+    else {
+        printf("\nDeleted %d from the rear", dq->items[dq->rear]);
+        if (dq->front == dq->rear) {
+            dq->front = dq->rear = -1;
+        } else if (dq->rear == 0) {
+            dq->rear = MAX_SIZE - 1;
+        } else {
+            dq->rear--;
+        }
+    }
+}
+
+void peekFront(struct Dequeue *dq) {
+    if (isEmpty(dq)) printf("\nDequeue is Empty!\n");
+    else {
+        printf("\nFront element: %d\n", dq->items[dq->front]);
+    }
+}
+
+void peekRear(struct Dequeue *dq) {
+    if (isEmpty(dq)) printf("\nDequeue is Empty!\n");
+    else {
+        printf("\nRear element: %d\n", dq->items[dq->rear]);
+    }
+}
+
 void display(struct Dequeue *dq) {
-    if (isEmpty(dq)) printf("\nDequeue is Empty!");
+    if (isEmpty(dq)) printf("\nDequeue is Empty!\n");
     else {
         printf("Deque elements: ");
         int i = dq->front;
@@ -77,23 +134,25 @@ int main() {
                 scanf("%d", &value);
                 insertFront(&dq, value);
                 break;
-            // case 2:
-            //     printf("Enter value to insert at rear: ");
-            //     scanf("%d", &value);
-            //     insertRear(&dq, value);
-            //     break;
-            // case 3:
-            //     deleteFront(&dq);
-            //     break;
-            // case 4:
-            //     deleteRear(&dq);
-            //     break;
-            // case 5:
-            //     peekFront(&dq);
-            //     break;
-            // case 6:
-            //     peekRear(&dq);
-            //     break;
+            case 2:
+                printf("Enter value to insert at rear: ");
+                scanf("%d", &value);
+                insertRear(&dq, value);
+                break;
+            case 3:
+                deleteFront(&dq);
+                break;
+            case 4:
+                deleteRear(&dq);
+                break;
+            case 5:
+                peekFront(&dq);
+                system("pause");
+                break;
+            case 6:
+                peekRear(&dq);
+                system("pause");
+                break;
             case 7:
                 display(&dq);
                 system("pause");
