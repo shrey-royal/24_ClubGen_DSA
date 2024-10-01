@@ -60,6 +60,62 @@ node search(node root, int key) {
     return root;
 }
 
+int height(node root) {
+    if (root == NULL) return 0;
+
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
+node deleteNode(node root, int key) {
+    if (root == NULL) return root;
+
+    if (key < root->key) {
+        root->left = deleteNode(root->left, key);
+    } else if (key > root->key) {
+        root->right = deleteNode(root->right, key);
+    } else {
+        if (root->left == NULL) {
+            node temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            node temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        node temp = root->right;
+        while(temp->left != NULL) {
+            temp = temp->left;
+        }
+
+        root->key = temp->key;
+        root->right = deleteNode(root->right, temp->key);
+    }
+    return root;
+}
+
+void findMinMax(node root, int* min, int* max) {
+    node temp = root;
+    while (root->left != NULL) root = root->left;
+    *min = root->key;
+
+    while (temp->right != NULL) temp = temp->right;
+    *max = temp->key;
+}
+
+void pruneTree(node* root) {
+    if (*root != NULL) {
+        pruneTree(&((*root)->left));
+        pruneTree(&((*root)->right));
+        free(*root);
+        *root = NULL;
+    }
+}
+
 void printTree(node root, int space) {
     if (root == NULL) return;
 
@@ -134,28 +190,29 @@ int main() {    // 1 25 1 35 1 18 1 22 1 43 1 8 1 69 1 27
                 system("pause");
                 break;
 
-            // case 6:
-            //     printf("\nHeight of the tree: %d\n", height(root));
-            //     break;
+            case 6:
+                printf("\nHeight of the tree: %d\n", height(root));
+                system("pause");
+                break;
 
-            // case 7:
-            //     printf("\nEnter the value to delete: ");
-            //     scanf("%d", &key);
-            //     root = deleteNode(root, key);
-            //     break;
+            case 7:
+                printf("\nEnter the value to delete: ");
+                scanf("%d", &key);
+                root = deleteNode(root, key);
+                break;
 
-            // case 8:
-            //     min = INT_MAX;
-            //     max = INT_MIN;
-            //     findMinMax(root, &min, &max);
-            //     printf("\nMinimum value in the tree: %d", min);
-            //     printf("\nMaximum value in the tree: %d\n", max);
-            //     system("pause");
-            //     break;
+            case 8:
+                min = INT_MAX;
+                max = INT_MIN;
+                findMinMax(root, &min, &max);
+                printf("\nMinimum value in the tree: %d", min);
+                printf("\nMaximum value in the tree: %d\n", max);
+                system("pause");
+                break;
 
-            // case 9:
-            //     pruneTree(&root);
-            //     break;
+            case 9:
+                pruneTree(&root);
+                break;
 
             case 10:
                 printTree(root, 0);
